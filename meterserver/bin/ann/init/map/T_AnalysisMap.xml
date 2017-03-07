@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ann.init.dao.T_AnalysisMap">
+
+	<select id="findMeterList"  parameterType="String" resultType="ann.init.po.T_Analysis">
+		SELECT * FROM t_analysis limit 1
+	</select>
+	<insert id="insertt_analysis" parameterType="ann.init.po.T_Analysis" >
+	    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	INSERT INTO meter_db.t_analysis 
+	(meter_id,log_id,function_code,start_address,data_length,analysis_data1,
+	analysis_data2,analysis_data3,analysis_data4,analysis_data5,analysis_data6,analysis_data7,analysis_data8,
+	record_time,create_time) VALUES (#{meter_id}, #{log_id}, #{function_code}, #{start_address},  #{data_length},
+ 	#{analysis_data1}, #{analysis_data2}, #{analysis_data3},#{analysis_data4},#{analysis_data5}, #{analysis_data6}, #{analysis_data7},
+ 	#{analysis_data8}, now(), now())
+	</insert>
+
+</mapper>
+

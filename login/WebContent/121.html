@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html ng-app="xybus">
+<head>
+<meta http-equiv="Content-Type"content="text/html; charset=utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="stylesheet" href="css/button.css" />
+<link rel="stylesheet" href="css/input.css" />
+<link rel="stylesheet" href="css/div.css" />
+<script src="angular.js"></script>
+<style>
+
+ body{
+     
+     background-color: #fea
+ } 
+</style>
+
+</head>
+<body ng-controller="cont1" >
+<div>
+<div class="pages">
+
+    <div class="inputdiv">
+    <input  NAME="user_pass" TYPE="text" class="form-control">  
+    </div>
+    <div class="inputdiv">
+    <input  NAME="user_pass" TYPE="text" class="form-control">  
+    </div>
+</div>
+<div> 
+    <button type="button" class="button" ng-click="judgeride()">判断乘车</button>
+</div>
+    </div>
+        <div>
+<div class="pages">
+
+    <div class="inputdiv">
+    <input  NAME="user_pass" TYPE="text" class="form-control">  
+    </div>
+    <div class="inputdiv">
+    <input  NAME="user_pass" TYPE="text" class="form-control">  
+    </div>
+</div>
+<div> 
+    <button type="button" class="button" ng-click="exchangingcard()">更新特种卡</button>
+</div>
+    </div>
+        <div>
+<div class="pages">
+
+    <div class="inputdiv">
+    <input  NAME="user_pass" TYPE="text" class="form-control">  
+    </div>
+    <div class="inputdiv">
+    <input  NAME="user_pass" TYPE="text" class="form-control">
+    </div>
+</div>
+<div> 
+    <button type="button" class="button" ng-click="changepayway()">更换充值类型</button>
+</div>
+    </div>
+        <div>
+<div class="pages">
+
+    <div class="inputdiv">
+    <input  NAME="user_pass" TYPE="text" class="form-control">  
+    </div>
+    <div class="inputdiv">
+    <input  NAME="user_pass" TYPE="text" class="form-control">  
+    </div>
+</div>
+<div> 
+    <button type="button" class="button">查询名单</button>
+</div>
+    </div>
+	<script>
+var app=angular.module('xybus', []);
+app.controller('cont1', function ($scope, $http){	
+	 $scope.uname="";
+     $scope.pword="";
+    $scope.changepayway=function(){
+       alert(1);
+       var postData = "?uname="+$scope.uname+"&"+"pword="+$scope.pword;
+       var url = "ChangePayWay" + postData;
+       $http.post(url).success(function (data){
+    	      alert(parseInt(data)+5);
+    	    }).error(function (){
+    	      alert('失败了');
+    	    });
+    };
+    $scope.exchangingcard=function(){
+       alert(2);
+    };
+    $scope.judgeride=function(){
+      alert(3);
+      };
+});
+</script>
+</body>
+</html>
