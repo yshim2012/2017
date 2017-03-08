@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xybus.dao.TTicketTimesDao">
+  <resultMap id="BaseResultMap" type="com.xybus.po.TTicketTimes">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="FREE_A" jdbcType="SMALLINT" property="freeA" />
+    <result column="FREE_B" jdbcType="SMALLINT" property="freeB" />
+    <result column="FREE_C" jdbcType="SMALLINT" property="freeC" />
+    <result column="OVERTIME_A" jdbcType="SMALLINT" property="overtimeA" />
+    <result column="OVERTIME_B" jdbcType="SMALLINT" property="overtimeB" />
+    <result column="OVERTIME_C" jdbcType="SMALLINT" property="overtimeC" />
+    <result column="RECHARGE_A" jdbcType="SMALLINT" property="rechargeA" />
+    <result column="RECHARGE_B" jdbcType="SMALLINT" property="rechargeB" />
+    <result column="RECHARGE_C" jdbcType="SMALLINT" property="rechargeC" />
+    <result column="SPECIAL_A" jdbcType="SMALLINT" property="specialA" />
+    <result column="SPECIAL_B" jdbcType="SMALLINT" property="specialB" />
+    <result column="SPECIAL_C" jdbcType="SMALLINT" property="specialC" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER" jdbcType="SMALLINT" property="createUser" />
+    <result column="UPDATE_USER" jdbcType="SMALLINT" property="updateUser" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="OTHER_A" jdbcType="SMALLINT" property="otherA" />
+    <result column="OTHER_B" jdbcType="SMALLINT" property="otherB" />
+    <result column="OTHER_C" jdbcType="SMALLINT" property="otherC" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, FREE_A, FREE_B, FREE_C, OVERTIME_A, OVERTIME_B, OVERTIME_C, RECHARGE_A, RECHARGE_B, 
+    RECHARGE_C, SPECIAL_A, SPECIAL_B, SPECIAL_C, CREATE_TIME, CREATE_USER, UPDATE_USER, 
+    UPDATE_TIME, OTHER_A, OTHER_B, OTHER_C
+  </sql>
+  <select id="selectByExample" parameterType="com.xybus.po.TTicketTimesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_ticket_times
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_ticket_times
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_ticket_times
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xybus.po.TTicketTimesExample">
+    delete from t_ticket_times
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xybus.po.TTicketTimes">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_ticket_times (FREE_A, FREE_B, FREE_C, 
+      OVERTIME_A, OVERTIME_B, OVERTIME_C, 
+      RECHARGE_A, RECHARGE_B, RECHARGE_C, 
+      SPECIAL_A, SPECIAL_B, SPECIAL_C, 
+      CREATE_TIME, CREATE_USER, UPDATE_USER, 
+      UPDATE_TIME, OTHER_A, OTHER_B, 
+      OTHER_C)
+    values (#{freeA,jdbcType=SMALLINT}, #{freeB,jdbcType=SMALLINT}, #{freeC,jdbcType=SMALLINT}, 
+      #{overtimeA,jdbcType=SMALLINT}, #{overtimeB,jdbcType=SMALLINT}, #{overtimeC,jdbcType=SMALLINT}, 
+      #{rechargeA,jdbcType=SMALLINT}, #{rechargeB,jdbcType=SMALLINT}, #{rechargeC,jdbcType=SMALLINT}, 
+      #{specialA,jdbcType=SMALLINT}, #{specialB,jdbcType=SMALLINT}, #{specialC,jdbcType=SMALLINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=SMALLINT}, #{updateUser,jdbcType=SMALLINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{otherA,jdbcType=SMALLINT}, #{otherB,jdbcType=SMALLINT}, 
+      #{otherC,jdbcType=SMALLINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xybus.po.TTicketTimes">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_ticket_times
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="freeA != null">
+        FREE_A,
+      </if>
+      <if test="freeB != null">
+        FREE_B,
+      </if>
+      <if test="freeC != null">
+        FREE_C,
+      </if>
+      <if test="overtimeA != null">
+        OVERTIME_A,
+      </if>
+      <if test="overtimeB != null">
+        OVERTIME_B,
+      </if>
+      <if test="overtimeC != null">
+        OVERTIME_C,
+      </if>
+      <if test="rechargeA != null">
+        RECHARGE_A,
+      </if>
+      <if test="rechargeB != null">
+        RECHARGE_B,
+      </if>
+      <if test="rechargeC != null">
+        RECHARGE_C,
+      </if>
+      <if test="specialA != null">
+        SPECIAL_A,
+      </if>
+      <if test="specialB != null">
+        SPECIAL_B,
+      </if>
+      <if test="specialC != null">
+        SPECIAL_C,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createUser != null">
+        CREATE_USER,
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="otherA != null">
+        OTHER_A,
+      </if>
+      <if test="otherB != null">
+        OTHER_B,
+      </if>
+      <if test="otherC != null">
+        OTHER_C,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="freeA != null">
+        #{freeA,jdbcType=SMALLINT},
+      </if>
+      <if test="freeB != null">
+        #{freeB,jdbcType=SMALLINT},
+      </if>
+      <if test="freeC != null">
+        #{freeC,jdbcType=SMALLINT},
+      </if>
+      <if test="overtimeA != null">
+        #{overtimeA,jdbcType=SMALLINT},
+      </if>
+      <if test="overtimeB != null">
+        #{overtimeB,jdbcType=SMALLINT},
+      </if>
+      <if test="overtimeC != null">
+        #{overtimeC,jdbcType=SMALLINT},
+      </if>
+      <if test="rechargeA != null">
+        #{rechargeA,jdbcType=SMALLINT},
+      </if>
+      <if test="rechargeB != null">
+        #{rechargeB,jdbcType=SMALLINT},
+      </if>
+      <if test="rechargeC != null">
+        #{rechargeC,jdbcType=SMALLINT},
+      </if>
+      <if test="specialA != null">
+        #{specialA,jdbcType=SMALLINT},
+      </if>
+      <if test="specialB != null">
+        #{specialB,jdbcType=SMALLINT},
+      </if>
+      <if test="specialC != null">
+        #{specialC,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=SMALLINT},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=SMALLINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="otherA != null">
+        #{otherA,jdbcType=SMALLINT},
+      </if>
+      <if test="otherB != null">
+        #{otherB,jdbcType=SMALLINT},
+      </if>
+      <if test="otherC != null">
+        #{otherC,jdbcType=SMALLINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xybus.po.TTicketTimesExample" resultType="java.lang.Long">
+    select count(*) from t_ticket_times
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_ticket_times
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.freeA != null">
+        FREE_A = #{record.freeA,jdbcType=SMALLINT},
+      </if>
+      <if test="record.freeB != null">
+        FREE_B = #{record.freeB,jdbcType=SMALLINT},
+      </if>
+      <if test="record.freeC != null">
+        FREE_C = #{record.freeC,jdbcType=SMALLINT},
+      </if>
+      <if test="record.overtimeA != null">
+        OVERTIME_A = #{record.overtimeA,jdbcType=SMALLINT},
+      </if>
+      <if test="record.overtimeB != null">
+        OVERTIME_B = #{record.overtimeB,jdbcType=SMALLINT},
+      </if>
+      <if test="record.overtimeC != null">
+        OVERTIME_C = #{record.overtimeC,jdbcType=SMALLINT},
+      </if>
+      <if test="record.rechargeA != null">
+        RECHARGE_A = #{record.rechargeA,jdbcType=SMALLINT},
+      </if>
+      <if test="record.rechargeB != null">
+        RECHARGE_B = #{record.rechargeB,jdbcType=SMALLINT},
+      </if>
+      <if test="record.rechargeC != null">
+        RECHARGE_C = #{record.rechargeC,jdbcType=SMALLINT},
+      </if>
+      <if test="record.specialA != null">
+        SPECIAL_A = #{record.specialA,jdbcType=SMALLINT},
+      </if>
+      <if test="record.specialB != null">
+        SPECIAL_B = #{record.specialB,jdbcType=SMALLINT},
+      </if>
+      <if test="record.specialC != null">
+        SPECIAL_C = #{record.specialC,jdbcType=SMALLINT},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        CREATE_USER = #{record.createUser,jdbcType=SMALLINT},
+      </if>
+      <if test="record.updateUser != null">
+        UPDATE_USER = #{record.updateUser,jdbcType=SMALLINT},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.otherA != null">
+        OTHER_A = #{record.otherA,jdbcType=SMALLINT},
+      </if>
+      <if test="record.otherB != null">
+        OTHER_B = #{record.otherB,jdbcType=SMALLINT},
+      </if>
+      <if test="record.otherC != null">
+        OTHER_C = #{record.otherC,jdbcType=SMALLINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_ticket_times
+    set id = #{record.id,jdbcType=INTEGER},
+      FREE_A = #{record.freeA,jdbcType=SMALLINT},
+      FREE_B = #{record.freeB,jdbcType=SMALLINT},
+      FREE_C = #{record.freeC,jdbcType=SMALLINT},
+      OVERTIME_A = #{record.overtimeA,jdbcType=SMALLINT},
+      OVERTIME_B = #{record.overtimeB,jdbcType=SMALLINT},
+      OVERTIME_C = #{record.overtimeC,jdbcType=SMALLINT},
+      RECHARGE_A = #{record.rechargeA,jdbcType=SMALLINT},
+      RECHARGE_B = #{record.rechargeB,jdbcType=SMALLINT},
+      RECHARGE_C = #{record.rechargeC,jdbcType=SMALLINT},
+      SPECIAL_A = #{record.specialA,jdbcType=SMALLINT},
+      SPECIAL_B = #{record.specialB,jdbcType=SMALLINT},
+      SPECIAL_C = #{record.specialC,jdbcType=SMALLINT},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      CREATE_USER = #{record.createUser,jdbcType=SMALLINT},
+      UPDATE_USER = #{record.updateUser,jdbcType=SMALLINT},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      OTHER_A = #{record.otherA,jdbcType=SMALLINT},
+      OTHER_B = #{record.otherB,jdbcType=SMALLINT},
+      OTHER_C = #{record.otherC,jdbcType=SMALLINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xybus.po.TTicketTimes">
+    update t_ticket_times
+    <set>
+      <if test="freeA != null">
+        FREE_A = #{freeA,jdbcType=SMALLINT},
+      </if>
+      <if test="freeB != null">
+        FREE_B = #{freeB,jdbcType=SMALLINT},
+      </if>
+      <if test="freeC != null">
+        FREE_C = #{freeC,jdbcType=SMALLINT},
+      </if>
+      <if test="overtimeA != null">
+        OVERTIME_A = #{overtimeA,jdbcType=SMALLINT},
+      </if>
+      <if test="overtimeB != null">
+        OVERTIME_B = #{overtimeB,jdbcType=SMALLINT},
+      </if>
+      <if test="overtimeC != null">
+        OVERTIME_C = #{overtimeC,jdbcType=SMALLINT},
+      </if>
+      <if test="rechargeA != null">
+        RECHARGE_A = #{rechargeA,jdbcType=SMALLINT},
+      </if>
+      <if test="rechargeB != null">
+        RECHARGE_B = #{rechargeB,jdbcType=SMALLINT},
+      </if>
+      <if test="rechargeC != null">
+        RECHARGE_C = #{rechargeC,jdbcType=SMALLINT},
+      </if>
+      <if test="specialA != null">
+        SPECIAL_A = #{specialA,jdbcType=SMALLINT},
+      </if>
+      <if test="specialB != null">
+        SPECIAL_B = #{specialB,jdbcType=SMALLINT},
+      </if>
+      <if test="specialC != null">
+        SPECIAL_C = #{specialC,jdbcType=SMALLINT},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        CREATE_USER = #{createUser,jdbcType=SMALLINT},
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER = #{updateUser,jdbcType=SMALLINT},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="otherA != null">
+        OTHER_A = #{otherA,jdbcType=SMALLINT},
+      </if>
+      <if test="otherB != null">
+        OTHER_B = #{otherB,jdbcType=SMALLINT},
+      </if>
+      <if test="otherC != null">
+        OTHER_C = #{otherC,jdbcType=SMALLINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xybus.po.TTicketTimes">
+    update t_ticket_times
+    set FREE_A = #{freeA,jdbcType=SMALLINT},
+      FREE_B = #{freeB,jdbcType=SMALLINT},
+      FREE_C = #{freeC,jdbcType=SMALLINT},
+      OVERTIME_A = #{overtimeA,jdbcType=SMALLINT},
+      OVERTIME_B = #{overtimeB,jdbcType=SMALLINT},
+      OVERTIME_C = #{overtimeC,jdbcType=SMALLINT},
+      RECHARGE_A = #{rechargeA,jdbcType=SMALLINT},
+      RECHARGE_B = #{rechargeB,jdbcType=SMALLINT},
+      RECHARGE_C = #{rechargeC,jdbcType=SMALLINT},
+      SPECIAL_A = #{specialA,jdbcType=SMALLINT},
+      SPECIAL_B = #{specialB,jdbcType=SMALLINT},
+      SPECIAL_C = #{specialC,jdbcType=SMALLINT},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=SMALLINT},
+      UPDATE_USER = #{updateUser,jdbcType=SMALLINT},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      OTHER_A = #{otherA,jdbcType=SMALLINT},
+      OTHER_B = #{otherB,jdbcType=SMALLINT},
+      OTHER_C = #{otherC,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

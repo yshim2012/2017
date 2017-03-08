@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xybus.dao.TCardpinHistoryDao">
+  <resultMap id="BaseResultMap" type="com.xybus.po.TCardpinHistory">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="OLD_CARD_PIN" jdbcType="VARCHAR" property="oldCardPin" />
+    <result column="NEW_CARD_PIN" jdbcType="VARCHAR" property="newCardPin" />
+    <result column="OLD_JOB_NUMBER" jdbcType="VARCHAR" property="oldJobNumber" />
+    <result column="NEW_JOB_NUMBER" jdbcType="VARCHAR" property="newJobNumber" />
+    <result column="OLD_TCARD_ID" jdbcType="INTEGER" property="oldTcardId" />
+    <result column="NEW_TCARD_ID" jdbcType="INTEGER" property="newTcardId" />
+    <result column="OLD_TPASSENEGER_ID" jdbcType="INTEGER" property="oldTpassenegerId" />
+    <result column="NEW_TPASSENEGER_ID" jdbcType="INTEGER" property="newTpassenegerId" />
+    <result column="CREATED_USER" jdbcType="SMALLINT" property="createdUser" />
+    <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="UPDATED_USER" jdbcType="SMALLINT" property="updatedUser" />
+    <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, OLD_CARD_PIN, NEW_CARD_PIN, OLD_JOB_NUMBER, NEW_JOB_NUMBER, OLD_TCARD_ID, NEW_TCARD_ID, 
+    OLD_TPASSENEGER_ID, NEW_TPASSENEGER_ID, CREATED_USER, CREATED_TIME, UPDATED_USER, 
+    UPDATED_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.xybus.po.TCardpinHistoryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_cardpin_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_cardpin_history
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_cardpin_history
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xybus.po.TCardpinHistoryExample">
+    delete from t_cardpin_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xybus.po.TCardpinHistory">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_cardpin_history (OLD_CARD_PIN, NEW_CARD_PIN, OLD_JOB_NUMBER, 
+      NEW_JOB_NUMBER, OLD_TCARD_ID, NEW_TCARD_ID, 
+      OLD_TPASSENEGER_ID, NEW_TPASSENEGER_ID, CREATED_USER, 
+      CREATED_TIME, UPDATED_USER, UPDATED_TIME
+      )
+    values (#{oldCardPin,jdbcType=VARCHAR}, #{newCardPin,jdbcType=VARCHAR}, #{oldJobNumber,jdbcType=VARCHAR}, 
+      #{newJobNumber,jdbcType=VARCHAR}, #{oldTcardId,jdbcType=INTEGER}, #{newTcardId,jdbcType=INTEGER}, 
+      #{oldTpassenegerId,jdbcType=INTEGER}, #{newTpassenegerId,jdbcType=INTEGER}, #{createdUser,jdbcType=SMALLINT}, 
+      #{createdTime,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=SMALLINT}, #{updatedTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xybus.po.TCardpinHistory">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_cardpin_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="oldCardPin != null">
+        OLD_CARD_PIN,
+      </if>
+      <if test="newCardPin != null">
+        NEW_CARD_PIN,
+      </if>
+      <if test="oldJobNumber != null">
+        OLD_JOB_NUMBER,
+      </if>
+      <if test="newJobNumber != null">
+        NEW_JOB_NUMBER,
+      </if>
+      <if test="oldTcardId != null">
+        OLD_TCARD_ID,
+      </if>
+      <if test="newTcardId != null">
+        NEW_TCARD_ID,
+      </if>
+      <if test="oldTpassenegerId != null">
+        OLD_TPASSENEGER_ID,
+      </if>
+      <if test="newTpassenegerId != null">
+        NEW_TPASSENEGER_ID,
+      </if>
+      <if test="createdUser != null">
+        CREATED_USER,
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME,
+      </if>
+      <if test="updatedUser != null">
+        UPDATED_USER,
+      </if>
+      <if test="updatedTime != null">
+        UPDATED_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="oldCardPin != null">
+        #{oldCardPin,jdbcType=VARCHAR},
+      </if>
+      <if test="newCardPin != null">
+        #{newCardPin,jdbcType=VARCHAR},
+      </if>
+      <if test="oldJobNumber != null">
+        #{oldJobNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="newJobNumber != null">
+        #{newJobNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="oldTcardId != null">
+        #{oldTcardId,jdbcType=INTEGER},
+      </if>
+      <if test="newTcardId != null">
+        #{newTcardId,jdbcType=INTEGER},
+      </if>
+      <if test="oldTpassenegerId != null">
+        #{oldTpassenegerId,jdbcType=INTEGER},
+      </if>
+      <if test="newTpassenegerId != null">
+        #{newTpassenegerId,jdbcType=INTEGER},
+      </if>
+      <if test="createdUser != null">
+        #{createdUser,jdbcType=SMALLINT},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null">
+        #{updatedUser,jdbcType=SMALLINT},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xybus.po.TCardpinHistoryExample" resultType="java.lang.Long">
+    select count(*) from t_cardpin_history
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_cardpin_history
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.oldCardPin != null">
+        OLD_CARD_PIN = #{record.oldCardPin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newCardPin != null">
+        NEW_CARD_PIN = #{record.newCardPin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldJobNumber != null">
+        OLD_JOB_NUMBER = #{record.oldJobNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newJobNumber != null">
+        NEW_JOB_NUMBER = #{record.newJobNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldTcardId != null">
+        OLD_TCARD_ID = #{record.oldTcardId,jdbcType=INTEGER},
+      </if>
+      <if test="record.newTcardId != null">
+        NEW_TCARD_ID = #{record.newTcardId,jdbcType=INTEGER},
+      </if>
+      <if test="record.oldTpassenegerId != null">
+        OLD_TPASSENEGER_ID = #{record.oldTpassenegerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.newTpassenegerId != null">
+        NEW_TPASSENEGER_ID = #{record.newTpassenegerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdUser != null">
+        CREATED_USER = #{record.createdUser,jdbcType=SMALLINT},
+      </if>
+      <if test="record.createdTime != null">
+        CREATED_TIME = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedUser != null">
+        UPDATED_USER = #{record.updatedUser,jdbcType=SMALLINT},
+      </if>
+      <if test="record.updatedTime != null">
+        UPDATED_TIME = #{record.updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_cardpin_history
+    set id = #{record.id,jdbcType=INTEGER},
+      OLD_CARD_PIN = #{record.oldCardPin,jdbcType=VARCHAR},
+      NEW_CARD_PIN = #{record.newCardPin,jdbcType=VARCHAR},
+      OLD_JOB_NUMBER = #{record.oldJobNumber,jdbcType=VARCHAR},
+      NEW_JOB_NUMBER = #{record.newJobNumber,jdbcType=VARCHAR},
+      OLD_TCARD_ID = #{record.oldTcardId,jdbcType=INTEGER},
+      NEW_TCARD_ID = #{record.newTcardId,jdbcType=INTEGER},
+      OLD_TPASSENEGER_ID = #{record.oldTpassenegerId,jdbcType=INTEGER},
+      NEW_TPASSENEGER_ID = #{record.newTpassenegerId,jdbcType=INTEGER},
+      CREATED_USER = #{record.createdUser,jdbcType=SMALLINT},
+      CREATED_TIME = #{record.createdTime,jdbcType=TIMESTAMP},
+      UPDATED_USER = #{record.updatedUser,jdbcType=SMALLINT},
+      UPDATED_TIME = #{record.updatedTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xybus.po.TCardpinHistory">
+    update t_cardpin_history
+    <set>
+      <if test="oldCardPin != null">
+        OLD_CARD_PIN = #{oldCardPin,jdbcType=VARCHAR},
+      </if>
+      <if test="newCardPin != null">
+        NEW_CARD_PIN = #{newCardPin,jdbcType=VARCHAR},
+      </if>
+      <if test="oldJobNumber != null">
+        OLD_JOB_NUMBER = #{oldJobNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="newJobNumber != null">
+        NEW_JOB_NUMBER = #{newJobNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="oldTcardId != null">
+        OLD_TCARD_ID = #{oldTcardId,jdbcType=INTEGER},
+      </if>
+      <if test="newTcardId != null">
+        NEW_TCARD_ID = #{newTcardId,jdbcType=INTEGER},
+      </if>
+      <if test="oldTpassenegerId != null">
+        OLD_TPASSENEGER_ID = #{oldTpassenegerId,jdbcType=INTEGER},
+      </if>
+      <if test="newTpassenegerId != null">
+        NEW_TPASSENEGER_ID = #{newTpassenegerId,jdbcType=INTEGER},
+      </if>
+      <if test="createdUser != null">
+        CREATED_USER = #{createdUser,jdbcType=SMALLINT},
+      </if>
+      <if test="createdTime != null">
+        CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null">
+        UPDATED_USER = #{updatedUser,jdbcType=SMALLINT},
+      </if>
+      <if test="updatedTime != null">
+        UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xybus.po.TCardpinHistory">
+    update t_cardpin_history
+    set OLD_CARD_PIN = #{oldCardPin,jdbcType=VARCHAR},
+      NEW_CARD_PIN = #{newCardPin,jdbcType=VARCHAR},
+      OLD_JOB_NUMBER = #{oldJobNumber,jdbcType=VARCHAR},
+      NEW_JOB_NUMBER = #{newJobNumber,jdbcType=VARCHAR},
+      OLD_TCARD_ID = #{oldTcardId,jdbcType=INTEGER},
+      NEW_TCARD_ID = #{newTcardId,jdbcType=INTEGER},
+      OLD_TPASSENEGER_ID = #{oldTpassenegerId,jdbcType=INTEGER},
+      NEW_TPASSENEGER_ID = #{newTpassenegerId,jdbcType=INTEGER},
+      CREATED_USER = #{createdUser,jdbcType=SMALLINT},
+      CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP},
+      UPDATED_USER = #{updatedUser,jdbcType=SMALLINT},
+      UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

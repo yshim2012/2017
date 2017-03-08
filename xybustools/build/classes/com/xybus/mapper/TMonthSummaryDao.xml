@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xybus.dao.TMonthSummaryDao">
+  <resultMap id="BaseResultMap" type="com.xybus.po.TMonthSummary">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="T_PASSENGER_ID" jdbcType="INTEGER" property="tPassengerId" />
+    <result column="TICKET_TIMES_ID" jdbcType="INTEGER" property="ticketTimesId" />
+    <result column="VALID_MONTH" jdbcType="VARCHAR" property="validMonth" />
+    <result column="UI_FREE_TIMES" jdbcType="INTEGER" property="uiFreeTimes" />
+    <result column="UI_FREE_AFTER_TIMES" jdbcType="INTEGER" property="uiFreeAfterTimes" />
+    <result column="UI_OTHERS_TIMES" jdbcType="INTEGER" property="uiOthersTimes" />
+    <result column="UI_OTHERS_AFTER_TIMES" jdbcType="INTEGER" property="uiOthersAfterTimes" />
+    <result column="UI_OVERTIME_TIMES" jdbcType="INTEGER" property="uiOvertimeTimes" />
+    <result column="UI_OVERTIME_AFTER_TIMES" jdbcType="INTEGER" property="uiOvertimeAfterTimes" />
+    <result column="UI_SPECIAL_TIMES" jdbcType="INTEGER" property="uiSpecialTimes" />
+    <result column="UI_SPECIAL_AFTER_TIMES" jdbcType="INTEGER" property="uiSpecialAfterTimes" />
+    <result column="UI_RECHARGE_TIMES" jdbcType="INTEGER" property="uiRechargeTimes" />
+    <result column="UI_RECHARGE_AFTER_TIMES" jdbcType="INTEGER" property="uiRechargeAfterTimes" />
+    <result column="UI_CARD_RECHARGE_TIMES" jdbcType="INTEGER" property="uiCardRechargeTimes" />
+    <result column="UI_CARD_RECHARGE_AFTER_TIMES" jdbcType="INTEGER" property="uiCardRechargeAfterTimes" />
+    <result column="COMPANY_MONEY" jdbcType="DECIMAL" property="companyMoney" />
+    <result column="PERSONAL_MONEY" jdbcType="DECIMAL" property="personalMoney" />
+    <result column="P_TOTAL_TIMES_A" jdbcType="INTEGER" property="pTotalTimesA" />
+    <result column="P_TOTAL_TIMES_B" jdbcType="INTEGER" property="pTotalTimesB" />
+    <result column="P_TOTAL_TIMES_C" jdbcType="INTEGER" property="pTotalTimesC" />
+    <result column="CAL_TICKET_TYPE_TIMES" jdbcType="INTEGER" property="calTicketTypeTimes" />
+    <result column="CAL_TICKET_TYPE" jdbcType="VARCHAR" property="calTicketType" />
+    <result column="WRONG_STATUS" jdbcType="CHAR" property="wrongStatus" />
+    <result column="TOTAL_TIMES_A" jdbcType="INTEGER" property="totalTimesA" />
+    <result column="TOTAL_TIMES_B" jdbcType="INTEGER" property="totalTimesB" />
+    <result column="TOTAL_TIMES_C" jdbcType="INTEGER" property="totalTimesC" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER" jdbcType="SMALLINT" property="createUser" />
+    <result column="UPDATE_USER" jdbcType="SMALLINT" property="updateUser" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="SUMMARY_STATUS" jdbcType="CHAR" property="summaryStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, T_PASSENGER_ID, TICKET_TIMES_ID, VALID_MONTH, UI_FREE_TIMES, UI_FREE_AFTER_TIMES, 
+    UI_OTHERS_TIMES, UI_OTHERS_AFTER_TIMES, UI_OVERTIME_TIMES, UI_OVERTIME_AFTER_TIMES, 
+    UI_SPECIAL_TIMES, UI_SPECIAL_AFTER_TIMES, UI_RECHARGE_TIMES, UI_RECHARGE_AFTER_TIMES, 
+    UI_CARD_RECHARGE_TIMES, UI_CARD_RECHARGE_AFTER_TIMES, COMPANY_MONEY, PERSONAL_MONEY, 
+    P_TOTAL_TIMES_A, P_TOTAL_TIMES_B, P_TOTAL_TIMES_C, CAL_TICKET_TYPE_TIMES, CAL_TICKET_TYPE, 
+    WRONG_STATUS, TOTAL_TIMES_A, TOTAL_TIMES_B, TOTAL_TIMES_C, CREATE_TIME, CREATE_USER, 
+    UPDATE_USER, UPDATE_TIME, SUMMARY_STATUS
+  </sql>
+  <select id="selectByExample" parameterType="com.xybus.po.TMonthSummaryExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_month_summary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_month_summary
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_month_summary
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xybus.po.TMonthSummaryExample">
+    delete from t_month_summary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xybus.po.TMonthSummary">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_month_summary (T_PASSENGER_ID, TICKET_TIMES_ID, VALID_MONTH, 
+      UI_FREE_TIMES, UI_FREE_AFTER_TIMES, UI_OTHERS_TIMES, 
+      UI_OTHERS_AFTER_TIMES, UI_OVERTIME_TIMES, UI_OVERTIME_AFTER_TIMES, 
+      UI_SPECIAL_TIMES, UI_SPECIAL_AFTER_TIMES, UI_RECHARGE_TIMES, 
+      UI_RECHARGE_AFTER_TIMES, UI_CARD_RECHARGE_TIMES, 
+      UI_CARD_RECHARGE_AFTER_TIMES, COMPANY_MONEY, 
+      PERSONAL_MONEY, P_TOTAL_TIMES_A, P_TOTAL_TIMES_B, 
+      P_TOTAL_TIMES_C, CAL_TICKET_TYPE_TIMES, CAL_TICKET_TYPE, 
+      WRONG_STATUS, TOTAL_TIMES_A, TOTAL_TIMES_B, 
+      TOTAL_TIMES_C, CREATE_TIME, CREATE_USER, 
+      UPDATE_USER, UPDATE_TIME, SUMMARY_STATUS
+      )
+    values (#{tPassengerId,jdbcType=INTEGER}, #{ticketTimesId,jdbcType=INTEGER}, #{validMonth,jdbcType=VARCHAR}, 
+      #{uiFreeTimes,jdbcType=INTEGER}, #{uiFreeAfterTimes,jdbcType=INTEGER}, #{uiOthersTimes,jdbcType=INTEGER}, 
+      #{uiOthersAfterTimes,jdbcType=INTEGER}, #{uiOvertimeTimes,jdbcType=INTEGER}, #{uiOvertimeAfterTimes,jdbcType=INTEGER}, 
+      #{uiSpecialTimes,jdbcType=INTEGER}, #{uiSpecialAfterTimes,jdbcType=INTEGER}, #{uiRechargeTimes,jdbcType=INTEGER}, 
+      #{uiRechargeAfterTimes,jdbcType=INTEGER}, #{uiCardRechargeTimes,jdbcType=INTEGER}, 
+      #{uiCardRechargeAfterTimes,jdbcType=INTEGER}, #{companyMoney,jdbcType=DECIMAL}, 
+      #{personalMoney,jdbcType=DECIMAL}, #{pTotalTimesA,jdbcType=INTEGER}, #{pTotalTimesB,jdbcType=INTEGER}, 
+      #{pTotalTimesC,jdbcType=INTEGER}, #{calTicketTypeTimes,jdbcType=INTEGER}, #{calTicketType,jdbcType=VARCHAR}, 
+      #{wrongStatus,jdbcType=CHAR}, #{totalTimesA,jdbcType=INTEGER}, #{totalTimesB,jdbcType=INTEGER}, 
+      #{totalTimesC,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=SMALLINT}, 
+      #{updateUser,jdbcType=SMALLINT}, #{updateTime,jdbcType=TIMESTAMP}, #{summaryStatus,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xybus.po.TMonthSummary">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_month_summary
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tPassengerId != null">
+        T_PASSENGER_ID,
+      </if>
+      <if test="ticketTimesId != null">
+        TICKET_TIMES_ID,
+      </if>
+      <if test="validMonth != null">
+        VALID_MONTH,
+      </if>
+      <if test="uiFreeTimes != null">
+        UI_FREE_TIMES,
+      </if>
+      <if test="uiFreeAfterTimes != null">
+        UI_FREE_AFTER_TIMES,
+      </if>
+      <if test="uiOthersTimes != null">
+        UI_OTHERS_TIMES,
+      </if>
+      <if test="uiOthersAfterTimes != null">
+        UI_OTHERS_AFTER_TIMES,
+      </if>
+      <if test="uiOvertimeTimes != null">
+        UI_OVERTIME_TIMES,
+      </if>
+      <if test="uiOvertimeAfterTimes != null">
+        UI_OVERTIME_AFTER_TIMES,
+      </if>
+      <if test="uiSpecialTimes != null">
+        UI_SPECIAL_TIMES,
+      </if>
+      <if test="uiSpecialAfterTimes != null">
+        UI_SPECIAL_AFTER_TIMES,
+      </if>
+      <if test="uiRechargeTimes != null">
+        UI_RECHARGE_TIMES,
+      </if>
+      <if test="uiRechargeAfterTimes != null">
+        UI_RECHARGE_AFTER_TIMES,
+      </if>
+      <if test="uiCardRechargeTimes != null">
+        UI_CARD_RECHARGE_TIMES,
+      </if>
+      <if test="uiCardRechargeAfterTimes != null">
+        UI_CARD_RECHARGE_AFTER_TIMES,
+      </if>
+      <if test="companyMoney != null">
+        COMPANY_MONEY,
+      </if>
+      <if test="personalMoney != null">
+        PERSONAL_MONEY,
+      </if>
+      <if test="pTotalTimesA != null">
+        P_TOTAL_TIMES_A,
+      </if>
+      <if test="pTotalTimesB != null">
+        P_TOTAL_TIMES_B,
+      </if>
+      <if test="pTotalTimesC != null">
+        P_TOTAL_TIMES_C,
+      </if>
+      <if test="calTicketTypeTimes != null">
+        CAL_TICKET_TYPE_TIMES,
+      </if>
+      <if test="calTicketType != null">
+        CAL_TICKET_TYPE,
+      </if>
+      <if test="wrongStatus != null">
+        WRONG_STATUS,
+      </if>
+      <if test="totalTimesA != null">
+        TOTAL_TIMES_A,
+      </if>
+      <if test="totalTimesB != null">
+        TOTAL_TIMES_B,
+      </if>
+      <if test="totalTimesC != null">
+        TOTAL_TIMES_C,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createUser != null">
+        CREATE_USER,
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="summaryStatus != null">
+        SUMMARY_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tPassengerId != null">
+        #{tPassengerId,jdbcType=INTEGER},
+      </if>
+      <if test="ticketTimesId != null">
+        #{ticketTimesId,jdbcType=INTEGER},
+      </if>
+      <if test="validMonth != null">
+        #{validMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="uiFreeTimes != null">
+        #{uiFreeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiFreeAfterTimes != null">
+        #{uiFreeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiOthersTimes != null">
+        #{uiOthersTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiOthersAfterTimes != null">
+        #{uiOthersAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiOvertimeTimes != null">
+        #{uiOvertimeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiOvertimeAfterTimes != null">
+        #{uiOvertimeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiSpecialTimes != null">
+        #{uiSpecialTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiSpecialAfterTimes != null">
+        #{uiSpecialAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiRechargeTimes != null">
+        #{uiRechargeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiRechargeAfterTimes != null">
+        #{uiRechargeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiCardRechargeTimes != null">
+        #{uiCardRechargeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiCardRechargeAfterTimes != null">
+        #{uiCardRechargeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="companyMoney != null">
+        #{companyMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="personalMoney != null">
+        #{personalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="pTotalTimesA != null">
+        #{pTotalTimesA,jdbcType=INTEGER},
+      </if>
+      <if test="pTotalTimesB != null">
+        #{pTotalTimesB,jdbcType=INTEGER},
+      </if>
+      <if test="pTotalTimesC != null">
+        #{pTotalTimesC,jdbcType=INTEGER},
+      </if>
+      <if test="calTicketTypeTimes != null">
+        #{calTicketTypeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="calTicketType != null">
+        #{calTicketType,jdbcType=VARCHAR},
+      </if>
+      <if test="wrongStatus != null">
+        #{wrongStatus,jdbcType=CHAR},
+      </if>
+      <if test="totalTimesA != null">
+        #{totalTimesA,jdbcType=INTEGER},
+      </if>
+      <if test="totalTimesB != null">
+        #{totalTimesB,jdbcType=INTEGER},
+      </if>
+      <if test="totalTimesC != null">
+        #{totalTimesC,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=SMALLINT},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=SMALLINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="summaryStatus != null">
+        #{summaryStatus,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xybus.po.TMonthSummaryExample" resultType="java.lang.Long">
+    select count(*) from t_month_summary
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_month_summary
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.tPassengerId != null">
+        T_PASSENGER_ID = #{record.tPassengerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ticketTimesId != null">
+        TICKET_TIMES_ID = #{record.ticketTimesId,jdbcType=INTEGER},
+      </if>
+      <if test="record.validMonth != null">
+        VALID_MONTH = #{record.validMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uiFreeTimes != null">
+        UI_FREE_TIMES = #{record.uiFreeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.uiFreeAfterTimes != null">
+        UI_FREE_AFTER_TIMES = #{record.uiFreeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.uiOthersTimes != null">
+        UI_OTHERS_TIMES = #{record.uiOthersTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.uiOthersAfterTimes != null">
+        UI_OTHERS_AFTER_TIMES = #{record.uiOthersAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.uiOvertimeTimes != null">
+        UI_OVERTIME_TIMES = #{record.uiOvertimeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.uiOvertimeAfterTimes != null">
+        UI_OVERTIME_AFTER_TIMES = #{record.uiOvertimeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.uiSpecialTimes != null">
+        UI_SPECIAL_TIMES = #{record.uiSpecialTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.uiSpecialAfterTimes != null">
+        UI_SPECIAL_AFTER_TIMES = #{record.uiSpecialAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.uiRechargeTimes != null">
+        UI_RECHARGE_TIMES = #{record.uiRechargeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.uiRechargeAfterTimes != null">
+        UI_RECHARGE_AFTER_TIMES = #{record.uiRechargeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.uiCardRechargeTimes != null">
+        UI_CARD_RECHARGE_TIMES = #{record.uiCardRechargeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.uiCardRechargeAfterTimes != null">
+        UI_CARD_RECHARGE_AFTER_TIMES = #{record.uiCardRechargeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyMoney != null">
+        COMPANY_MONEY = #{record.companyMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.personalMoney != null">
+        PERSONAL_MONEY = #{record.personalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pTotalTimesA != null">
+        P_TOTAL_TIMES_A = #{record.pTotalTimesA,jdbcType=INTEGER},
+      </if>
+      <if test="record.pTotalTimesB != null">
+        P_TOTAL_TIMES_B = #{record.pTotalTimesB,jdbcType=INTEGER},
+      </if>
+      <if test="record.pTotalTimesC != null">
+        P_TOTAL_TIMES_C = #{record.pTotalTimesC,jdbcType=INTEGER},
+      </if>
+      <if test="record.calTicketTypeTimes != null">
+        CAL_TICKET_TYPE_TIMES = #{record.calTicketTypeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.calTicketType != null">
+        CAL_TICKET_TYPE = #{record.calTicketType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wrongStatus != null">
+        WRONG_STATUS = #{record.wrongStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.totalTimesA != null">
+        TOTAL_TIMES_A = #{record.totalTimesA,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalTimesB != null">
+        TOTAL_TIMES_B = #{record.totalTimesB,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalTimesC != null">
+        TOTAL_TIMES_C = #{record.totalTimesC,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        CREATE_USER = #{record.createUser,jdbcType=SMALLINT},
+      </if>
+      <if test="record.updateUser != null">
+        UPDATE_USER = #{record.updateUser,jdbcType=SMALLINT},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.summaryStatus != null">
+        SUMMARY_STATUS = #{record.summaryStatus,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_month_summary
+    set id = #{record.id,jdbcType=INTEGER},
+      T_PASSENGER_ID = #{record.tPassengerId,jdbcType=INTEGER},
+      TICKET_TIMES_ID = #{record.ticketTimesId,jdbcType=INTEGER},
+      VALID_MONTH = #{record.validMonth,jdbcType=VARCHAR},
+      UI_FREE_TIMES = #{record.uiFreeTimes,jdbcType=INTEGER},
+      UI_FREE_AFTER_TIMES = #{record.uiFreeAfterTimes,jdbcType=INTEGER},
+      UI_OTHERS_TIMES = #{record.uiOthersTimes,jdbcType=INTEGER},
+      UI_OTHERS_AFTER_TIMES = #{record.uiOthersAfterTimes,jdbcType=INTEGER},
+      UI_OVERTIME_TIMES = #{record.uiOvertimeTimes,jdbcType=INTEGER},
+      UI_OVERTIME_AFTER_TIMES = #{record.uiOvertimeAfterTimes,jdbcType=INTEGER},
+      UI_SPECIAL_TIMES = #{record.uiSpecialTimes,jdbcType=INTEGER},
+      UI_SPECIAL_AFTER_TIMES = #{record.uiSpecialAfterTimes,jdbcType=INTEGER},
+      UI_RECHARGE_TIMES = #{record.uiRechargeTimes,jdbcType=INTEGER},
+      UI_RECHARGE_AFTER_TIMES = #{record.uiRechargeAfterTimes,jdbcType=INTEGER},
+      UI_CARD_RECHARGE_TIMES = #{record.uiCardRechargeTimes,jdbcType=INTEGER},
+      UI_CARD_RECHARGE_AFTER_TIMES = #{record.uiCardRechargeAfterTimes,jdbcType=INTEGER},
+      COMPANY_MONEY = #{record.companyMoney,jdbcType=DECIMAL},
+      PERSONAL_MONEY = #{record.personalMoney,jdbcType=DECIMAL},
+      P_TOTAL_TIMES_A = #{record.pTotalTimesA,jdbcType=INTEGER},
+      P_TOTAL_TIMES_B = #{record.pTotalTimesB,jdbcType=INTEGER},
+      P_TOTAL_TIMES_C = #{record.pTotalTimesC,jdbcType=INTEGER},
+      CAL_TICKET_TYPE_TIMES = #{record.calTicketTypeTimes,jdbcType=INTEGER},
+      CAL_TICKET_TYPE = #{record.calTicketType,jdbcType=VARCHAR},
+      WRONG_STATUS = #{record.wrongStatus,jdbcType=CHAR},
+      TOTAL_TIMES_A = #{record.totalTimesA,jdbcType=INTEGER},
+      TOTAL_TIMES_B = #{record.totalTimesB,jdbcType=INTEGER},
+      TOTAL_TIMES_C = #{record.totalTimesC,jdbcType=INTEGER},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      CREATE_USER = #{record.createUser,jdbcType=SMALLINT},
+      UPDATE_USER = #{record.updateUser,jdbcType=SMALLINT},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      SUMMARY_STATUS = #{record.summaryStatus,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xybus.po.TMonthSummary">
+    update t_month_summary
+    <set>
+      <if test="tPassengerId != null">
+        T_PASSENGER_ID = #{tPassengerId,jdbcType=INTEGER},
+      </if>
+      <if test="ticketTimesId != null">
+        TICKET_TIMES_ID = #{ticketTimesId,jdbcType=INTEGER},
+      </if>
+      <if test="validMonth != null">
+        VALID_MONTH = #{validMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="uiFreeTimes != null">
+        UI_FREE_TIMES = #{uiFreeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiFreeAfterTimes != null">
+        UI_FREE_AFTER_TIMES = #{uiFreeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiOthersTimes != null">
+        UI_OTHERS_TIMES = #{uiOthersTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiOthersAfterTimes != null">
+        UI_OTHERS_AFTER_TIMES = #{uiOthersAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiOvertimeTimes != null">
+        UI_OVERTIME_TIMES = #{uiOvertimeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiOvertimeAfterTimes != null">
+        UI_OVERTIME_AFTER_TIMES = #{uiOvertimeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiSpecialTimes != null">
+        UI_SPECIAL_TIMES = #{uiSpecialTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiSpecialAfterTimes != null">
+        UI_SPECIAL_AFTER_TIMES = #{uiSpecialAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiRechargeTimes != null">
+        UI_RECHARGE_TIMES = #{uiRechargeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiRechargeAfterTimes != null">
+        UI_RECHARGE_AFTER_TIMES = #{uiRechargeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiCardRechargeTimes != null">
+        UI_CARD_RECHARGE_TIMES = #{uiCardRechargeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="uiCardRechargeAfterTimes != null">
+        UI_CARD_RECHARGE_AFTER_TIMES = #{uiCardRechargeAfterTimes,jdbcType=INTEGER},
+      </if>
+      <if test="companyMoney != null">
+        COMPANY_MONEY = #{companyMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="personalMoney != null">
+        PERSONAL_MONEY = #{personalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="pTotalTimesA != null">
+        P_TOTAL_TIMES_A = #{pTotalTimesA,jdbcType=INTEGER},
+      </if>
+      <if test="pTotalTimesB != null">
+        P_TOTAL_TIMES_B = #{pTotalTimesB,jdbcType=INTEGER},
+      </if>
+      <if test="pTotalTimesC != null">
+        P_TOTAL_TIMES_C = #{pTotalTimesC,jdbcType=INTEGER},
+      </if>
+      <if test="calTicketTypeTimes != null">
+        CAL_TICKET_TYPE_TIMES = #{calTicketTypeTimes,jdbcType=INTEGER},
+      </if>
+      <if test="calTicketType != null">
+        CAL_TICKET_TYPE = #{calTicketType,jdbcType=VARCHAR},
+      </if>
+      <if test="wrongStatus != null">
+        WRONG_STATUS = #{wrongStatus,jdbcType=CHAR},
+      </if>
+      <if test="totalTimesA != null">
+        TOTAL_TIMES_A = #{totalTimesA,jdbcType=INTEGER},
+      </if>
+      <if test="totalTimesB != null">
+        TOTAL_TIMES_B = #{totalTimesB,jdbcType=INTEGER},
+      </if>
+      <if test="totalTimesC != null">
+        TOTAL_TIMES_C = #{totalTimesC,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        CREATE_USER = #{createUser,jdbcType=SMALLINT},
+      </if>
+      <if test="updateUser != null">
+        UPDATE_USER = #{updateUser,jdbcType=SMALLINT},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="summaryStatus != null">
+        SUMMARY_STATUS = #{summaryStatus,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xybus.po.TMonthSummary">
+    update t_month_summary
+    set T_PASSENGER_ID = #{tPassengerId,jdbcType=INTEGER},
+      TICKET_TIMES_ID = #{ticketTimesId,jdbcType=INTEGER},
+      VALID_MONTH = #{validMonth,jdbcType=VARCHAR},
+      UI_FREE_TIMES = #{uiFreeTimes,jdbcType=INTEGER},
+      UI_FREE_AFTER_TIMES = #{uiFreeAfterTimes,jdbcType=INTEGER},
+      UI_OTHERS_TIMES = #{uiOthersTimes,jdbcType=INTEGER},
+      UI_OTHERS_AFTER_TIMES = #{uiOthersAfterTimes,jdbcType=INTEGER},
+      UI_OVERTIME_TIMES = #{uiOvertimeTimes,jdbcType=INTEGER},
+      UI_OVERTIME_AFTER_TIMES = #{uiOvertimeAfterTimes,jdbcType=INTEGER},
+      UI_SPECIAL_TIMES = #{uiSpecialTimes,jdbcType=INTEGER},
+      UI_SPECIAL_AFTER_TIMES = #{uiSpecialAfterTimes,jdbcType=INTEGER},
+      UI_RECHARGE_TIMES = #{uiRechargeTimes,jdbcType=INTEGER},
+      UI_RECHARGE_AFTER_TIMES = #{uiRechargeAfterTimes,jdbcType=INTEGER},
+      UI_CARD_RECHARGE_TIMES = #{uiCardRechargeTimes,jdbcType=INTEGER},
+      UI_CARD_RECHARGE_AFTER_TIMES = #{uiCardRechargeAfterTimes,jdbcType=INTEGER},
+      COMPANY_MONEY = #{companyMoney,jdbcType=DECIMAL},
+      PERSONAL_MONEY = #{personalMoney,jdbcType=DECIMAL},
+      P_TOTAL_TIMES_A = #{pTotalTimesA,jdbcType=INTEGER},
+      P_TOTAL_TIMES_B = #{pTotalTimesB,jdbcType=INTEGER},
+      P_TOTAL_TIMES_C = #{pTotalTimesC,jdbcType=INTEGER},
+      CAL_TICKET_TYPE_TIMES = #{calTicketTypeTimes,jdbcType=INTEGER},
+      CAL_TICKET_TYPE = #{calTicketType,jdbcType=VARCHAR},
+      WRONG_STATUS = #{wrongStatus,jdbcType=CHAR},
+      TOTAL_TIMES_A = #{totalTimesA,jdbcType=INTEGER},
+      TOTAL_TIMES_B = #{totalTimesB,jdbcType=INTEGER},
+      TOTAL_TIMES_C = #{totalTimesC,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=SMALLINT},
+      UPDATE_USER = #{updateUser,jdbcType=SMALLINT},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      SUMMARY_STATUS = #{summaryStatus,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
