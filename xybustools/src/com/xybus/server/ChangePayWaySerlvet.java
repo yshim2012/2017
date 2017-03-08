@@ -1,4 +1,4 @@
-package com.xybus.serlvet;
+package com.xybus.server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,23 +9,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class ExchangingCardServlet
- */
-@WebServlet("/ExchangingCard")
-public class ExchangingCardServlet extends HttpServlet {
+
+@WebServlet("/ChangePayWay")
+public class ChangePayWaySerlvet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		doPost(request, response);
+		System.out.println(1);
 	}
+
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("get post  ExchangingCard");
+		String job_number = request.getParameter("job_number");
+		String pay_way = request.getParameter("pay_way");
+		System.out.println("get post  ChangePayWay");
 		PrintWriter pw = response.getWriter();
-		pw.write("ExchangingCard");
+		pw.write("ChangePayWay:"+job_number+"pay_way:"+pay_way);
 	}
 
 }
