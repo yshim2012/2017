@@ -16,6 +16,17 @@
     <result column="UPDATED_USER" jdbcType="SMALLINT" property="updatedUser" />
     <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
   </resultMap>
+  
+    <resultMap id="BaseResultMap2" type="com.xybus.po.TPassengerSub">
+    <result column="JOB_NUMBER" jdbcType="VARCHAR" property="jobNumber" />
+    <collection property="tcards" javaType="java.util.List" ofType="com.xybus.po.TCard"> 
+          <result column="CARD_NO" jdbcType="VARCHAR" property="cardNo" />
+           <result column="CARD_PIN" jdbcType="VARCHAR" property="cardPin" />
+            <result column="UPDATED_TIME" jdbcType="TIMESTAMP" property="updatedTime" />
+    </collection> 
+    
+
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -343,4 +354,32 @@
       UPDATED_TIME = #{updatedTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="queryForListByNumber"  parameterType="Map" resultMap="BaseResultMap2">
+ <![CDATA[
+SELECT JOB_NUMBER,c.card_pin,c.CARD_TYPE,c.`STATUS`,c.START_MONTH from t_passenger p
+INNER JOIN t_card c on c.PASSENGER_ID=p.id and c.STATUS <>'V'
+LEFT JOIN t_month_summary m on m.T_PASSENGER_ID=p.id and m.VALID_MONTH=DATE_FORMAT(NOW(),'%Y%m')
+ ]]>
+<where> 
+        <if  test="_parameter.containsKey('jobnumber')">
+             p.JOB_NUMBER=#{jobnumber}
+        </if>
+        <if  test="_parameter.containsKey('cardpin')">
+            and c.card_pin=#{cardpin}
+        </if>
+ </where>    
+LIMIT 1000
+ 
+  </select>
+  <select id="selectByJobNumber" parameterType="Map" resultType="com.xybus.po.TPassenger">
+      select * from t_passenger p
+    <where> 
+        <if  test="_parameter.containsKey('jobnumber')">
+             p.JOB_NUMBER=#{jobnumber}
+        </if>
+        <if  test="_parameter.containsKey('mobile')">
+            and p.mobile=#{mobile}
+        </if>
+ </where>
+  </select>
 </mapper>

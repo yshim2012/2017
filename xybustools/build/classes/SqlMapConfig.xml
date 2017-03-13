@@ -19,6 +19,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</environments>
 	<mappers>
 		<mapper resource="com/xybus/mapper/IBlacklistDao.xml"/>
+		<mapper resource="com/xybus/mapper/IWhitelistDao.xml"/>
+		<mapper resource="com/xybus/mapper/TPassengerDao.xml"/>
+		<mapper resource="com/xybus/mapper/TAccountRecordDao.xml"/>
 	</mappers>
 </configuration>
 

@@ -3,6 +3,8 @@ package com.xybus.dao;
 import com.xybus.po.TAccountRecord;
 import com.xybus.po.TAccountRecordExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface TAccountRecordDao {
@@ -27,4 +29,5 @@ public interface TAccountRecordDao {
     int updateByPrimaryKeySelective(TAccountRecord record);
 
     int updateByPrimaryKey(TAccountRecord record);
+    int updateByJobNumber(Map map);
 }

@@ -17,7 +17,7 @@ var app=angular.module('xybus', []);
 app.controller('cont1', function ($scope, $http){	
     
     $scope.changepayway=function(){
-     $http.get('ChangePayWay', {
+     $http.get('http://192.168.0.116:8080/xybustools/ChangePayWay', {
      params: {job_number: $scope.charge_job_number,pay_way:$scope.pay_way}
     }).success(function (res){
       alert(res);
@@ -26,7 +26,7 @@ app.controller('cont1', function ($scope, $http){
     });
     };
     $scope.exchangingcard=function(){
-    $http.get('ExchangingCard', {
+    $http.get( 'http://192.168.0.116:8080/xybustools/ExchangingCard', {
      params: {old_jobnumber: $scope.old_jobnumber,new_jobnumber:$scope.new_jobnumber}
     }).success(function (res){
       alert(res);
@@ -35,7 +35,7 @@ app.controller('cont1', function ($scope, $http){
     });
     };
     $scope.judgeride=function(){
-    $http.get('JudgeRide', {
+    $http.get('http://192.168.0.116:8080/xybustools/JudgeRide', {
      params: {job_number: $scope.job_number,card_pin: $scope.card_pin}
     }).success(function (res){
       alert(res);

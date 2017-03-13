@@ -2,7 +2,11 @@ package com.xybus.dao;
 
 import com.xybus.po.TPassenger;
 import com.xybus.po.TPassengerExample;
+import com.xybus.po.TPassengerSub;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface TPassengerDao {
@@ -27,4 +31,6 @@ public interface TPassengerDao {
     int updateByPrimaryKeySelective(TPassenger record);
 
     int updateByPrimaryKey(TPassenger record);
+    List<TPassengerSub> queryForListByNumber (Map map);
+    List<TPassenger>  selectByJobNumber (Map map);
 }
