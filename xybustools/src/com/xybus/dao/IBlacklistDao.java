@@ -2,7 +2,11 @@ package com.xybus.dao;
 
 import com.xybus.po.IBlacklist;
 import com.xybus.po.IBlacklistExample;
+import com.xybus.po.IRideList;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface IBlacklistDao {
@@ -25,6 +29,8 @@ public interface IBlacklistDao {
     int updateByExample(@Param("record") IBlacklist record, @Param("example") IBlacklistExample example);
 
     int updateByPrimaryKeySelective(IBlacklist record);
-
+    
     int updateByPrimaryKey(IBlacklist record);
+    
+    List<IRideList> selectbwList(Map map);
 }

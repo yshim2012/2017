@@ -10,6 +10,13 @@
     <result column="CREATED_USER" jdbcType="INTEGER" property="createdUser" />
     <result column="CREATED_TIME" jdbcType="TIMESTAMP" property="createdTime" />
   </resultMap>
+    <resultMap id="irideMap" type="com.xybus.po.IRideList">
+    <result column="CARD_PIN" jdbcType="VARCHAR" property="cardPin" />
+    <result column="JOB_NUMBER" jdbcType="VARCHAR" property="jobNumber" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    <result column="CARD_TYPE" jdbcType="CHAR" property="cardType" />
+	<result column="START_MONTH" jdbcType="VARCHAR" property="startMonth" />
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -248,4 +255,20 @@
       CREATED_TIME = #{createdTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+    <select id="selectbwList" parameterType="Map" resultMap="irideMap" >
+      SELECT aa.bwType,aa.CARD_PIN,p.JOB_NUMBER,c.CARD_NO,c.CARD_TYPE,c.AMOUNT,c.START_MONTH from (
+		SELECT '白名单' as bwType ,CARD_PIN from i_whitelist where VERSION=(SELECT MAX(VERSION) from i_whitelist)
+	UNION all 
+	SELECT '黑名单' as bwType ,CARD_PIN from i_blacklist where VERSION=(SELECT MAX(VERSION) from i_blacklist))as aa
+	LEFT JOIN t_card c on c.CARD_PIN=aa.CARD_PIN
+	LEFT JOIN t_passenger p on p.id=c.PASSENGER_ID
+    <where> 
+        <if  test="_parameter.containsKey('jobnumber')">
+             p.JOB_NUMBER=#{jobnumber}
+        </if>
+        <if  test="_parameter.containsKey('cardpin')">
+            and aa.CARD_PIN=#{cardpin}
+        </if>
+ 	</where>
+ </select>
 </mapper>

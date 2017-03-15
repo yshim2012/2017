@@ -30,7 +30,6 @@ public class ChangePayWaySerlvet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		doPost(request, response);
-		 
 	}
 
 
@@ -60,16 +59,25 @@ public class ChangePayWaySerlvet extends HttpServlet {
 				};
 				if(pay_way.equals("U")){
 			        map.put("payway", pay_way);
-			      System.out.println(tAccountRecordDao.updateByJobNumber(map));
+			     if(tAccountRecordDao.updateByJobNumber(map)==1){
 			      pw.write(job_number+"已更新成银联");
+			     }else{
+			    	 pw.write(job_number+"已更新过了或者最近三天没有充值记录");
+			     }
 				}else if(pay_way.equals("W")){
 			        map.put("payway", pay_way);
-			      System.out.println(tAccountRecordDao.updateByJobNumber(map));
+			        if(tAccountRecordDao.updateByJobNumber(map)==1){
 			      pw.write(job_number+"已更新成微信");
+			        }else{
+				    	 pw.write(job_number+"已更新过了或者最近三天没有充值记录");
+				     }
 				}else if(pay_way.equals("C")){
 			        map.put("payway", pay_way);
-			      System.out.println(tAccountRecordDao.updateByJobNumber(map));
+			        if(tAccountRecordDao.updateByJobNumber(map)==1){
 			      pw.write(job_number+"已更新成现金");
+			    }else{
+			    	 pw.write(job_number+"已更新过了或者最近三天没有充值记录");
+			     }
 				}else{
 					pw.write("输入的充值类型不正确");
 				}

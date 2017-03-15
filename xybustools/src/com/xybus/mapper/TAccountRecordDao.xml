@@ -316,7 +316,7 @@
 		SELECT * FROM (
 		SELECT a.id from t_account_record  a
 		LEFT JOIN t_passenger p on p.id=a.PASSENGER_ID
-		where a.CHANGE_TYPE='A' and JOB_NUMBER=#{jobnumber} and a.created_time>date_sub(NOW(),interval 5 day) ORDER BY a.id desc
+		where a.CHANGE_TYPE='A' and  PAY_WAY not in('O') and JOB_NUMBER=#{jobnumber} and a.created_time>date_sub(NOW(),interval 5 day) ORDER BY a.id desc
 		LIMIT 1) AS AID)
 		</update>
 </mapper>

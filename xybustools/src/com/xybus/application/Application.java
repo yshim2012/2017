@@ -17,7 +17,7 @@ import com.ucca.webservice.UccaServicePortType;
 
 public class Application {
 
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		
 		   try {  
 	            InputStream is = new FileInputStream("C:\\Users\\Administrator\\Desktop\\123.txt");  
@@ -39,15 +39,11 @@ public class Application {
 	            e.printStackTrace();  
 	        }  
 	}
-
+*/
 	private static void getData(String s) {
 		UccaService uccaService = new UccaService();
-	//	String s = "57849";
-		
-		UccaServicePortType uccaServicePortType= uccaService.getPort(UccaServicePortType.class);
-				
+		UccaServicePortType uccaServicePortType= uccaService.getPort(UccaServicePortType.class);			
 		ArrayOfEmployee a  = (ArrayOfEmployee)uccaServicePortType.queryCardIDAndVaildCode(s,"svw@2014aic");
-	//	ArrayOfEmployee a = new ArrayOfEmployee();
 		if(a!=null){
 			List<Employee> list= a.getEmployee();
 			
@@ -66,11 +62,6 @@ public class Application {
 	}
 	
 	public static String getCardPin(String s){
-//		Pattern pattern = Pattern.compile("[d][_][i][d][0-9]{1,}");  
-//	     Matcher matcher = pattern.matcher(s); 
-//	     while (matcher.find()) {
-//	    	String a= matcher.group(0).toString().replace("d_id", "");
-	    	//System.out.println(Double.valueOf(a));  
 	    	String ss=Long.toHexString(Long.valueOf(s));
 	    	 System.out.println(Long.toHexString(Long.valueOf(s)));
 	    	 if(ss.length()==8){
@@ -90,12 +81,10 @@ public class Application {
 	    	 }
 	    	 System.out.println(ss);
 	    	 return ss;
-//	    	 method1(ss);
 	} 
 	public static void method1(String s) {
 		FileWriter fw = null;
 		try {
-		//如果文件存在，则追加内容；如果文件不存在，则创建文件
 		File f=new File("C:\\Users\\Administrator\\Desktop\\result123.txt");
 		fw = new FileWriter(f, true);
 		} catch (IOException e) {
