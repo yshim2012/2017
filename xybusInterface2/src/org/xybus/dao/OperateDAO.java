@@ -8,6 +8,6 @@ public interface OperateDAO {
 	void save(List<Employee> list);
 	void delete(Employee e);
 	void selectversion();
-	void selectMAX();
+	List selectMAX();
 	void truncateTable();
 }

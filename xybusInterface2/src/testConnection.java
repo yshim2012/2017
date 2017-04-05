@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Test;
+import org.xybus.application.Application;
 import org.xybus.dao.MySqlWhiteListDaoImp;
 import org.xybus.dao.SqlServerWhiteListDaoImp;
 import org.xybus.utils.JdbcUtil;
@@ -94,8 +95,11 @@ public class testConnection {
 			    file.mkdir();   
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	@Test
+	public void test2()  {
+		Application.operateICardRecord();
 	}
 }

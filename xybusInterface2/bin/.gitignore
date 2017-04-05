@@ -1,0 +1,5 @@
+/lib/
+/mysql.properties
+/org/
+/sqlserver.properties
+/testConnection.class

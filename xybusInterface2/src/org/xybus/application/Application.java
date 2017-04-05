@@ -1,11 +1,14 @@
 package org.xybus.application;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 import org.xybus.dao.MySqlBlackListDaoImp;
+import org.xybus.dao.MySqlICardRecordDaoImp;
 import org.xybus.dao.MySqlWhiteListDaoImp;
 import org.xybus.dao.SqlServerBlackListDaoImp;
+import org.xybus.dao.SqlServerICardRecordDaoImp;
 import org.xybus.dao.SqlServerWhiteListDaoImp;
 import org.xybus.utils.JdbcUtil;
 import org.xybus.utils.LogExportUtil;
@@ -23,20 +26,37 @@ public class Application {
 		
 			e1.printStackTrace();
 		}
+		operateICardRecord();
 		while(true){
+			
 		operateIwhiteList();
 
 		operateIblackList();
+		int TIMES =30;
 			for (int i = 0; i <30; i++) {
 				try {
+					
 					Thread.sleep(thread_time);
-					System.out.println("我要休息"+(i+1)+"次");
+					System.out.println("倒计时更新"+(TIMES-(i+1))+"分");
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}
 	}
+	public static void operateICardRecord(){
+		SqlServerICardRecordDaoImp sqlServerICardRecordDaoImp = new SqlServerICardRecordDaoImp();
+		List list = sqlServerICardRecordDaoImp.getCardRecord();
+		MySqlICardRecordDaoImp mySqlICardRecordDaoImp = new MySqlICardRecordDaoImp();
+		mySqlICardRecordDaoImp.truncateTable();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		mySqlICardRecordDaoImp.InsertCardRecord(list);
+	}
+	
 	private static void operateIwhiteList() {
 		SqlServerWhiteListDaoImp sqlServerDao= new SqlServerWhiteListDaoImp();
 		sqlServerDao.selectversion();
@@ -51,9 +71,9 @@ public class Application {
 		LogExportUtil.printLog("mysql白名单数量为："+mysqldao.getSqlServerCount()+"");
 		LogExportUtil.printLog("mysql白名单版本号为："+mysqldao.getSqlServerVersion()+"");
 		if ((mysqldao.getSqlServerCount()!=sqlServerDao.getSqlServerCount())||(mysqldao.getSqlServerVersion()!=sqlServerDao.getSqlServerVersion())) {
-			sqlServerDao.selectMAX();
+//			;
 			mysqldao.truncateTable();
-			mysqldao.save(sqlServerDao.list);
+			mysqldao.save(sqlServerDao.selectMAX());
 		} else {
 			System.out.println("当前版本白名单为最新，无需更新");
 			LogExportUtil.printLog("当前版本白名单为最新，无需更新");
@@ -73,9 +93,8 @@ public class Application {
 		LogExportUtil.printLog("mysql黑名单数量为："+mysqldao.getSqlServerCount()+"");
 		LogExportUtil.printLog("mysql黑名单版本号为："+mysqldao.getSqlServerVersion()+"");
 		if ((mysqldao.getSqlServerCount()!=sqlServerDao.getSqlServerCount())||(mysqldao.getSqlServerVersion()!=sqlServerDao.getSqlServerVersion())) {
-			sqlServerDao.selectMAX();
 			mysqldao.truncateTable();
-			mysqldao.save(sqlServerDao.list);
+			mysqldao.save(sqlServerDao.selectMAX());
 		} else {
 			System.out.println("当前版本黑名单为最新，无需更新");
 			LogExportUtil.printLog("当前版本黑名单为最新，无需更新");

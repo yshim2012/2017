@@ -1,15 +1,16 @@
 package org.xybus.entity;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class i_whitelist  extends Employee{
 	private int id;
 	private String version;
 	private String card_pin;
 	private String status;
-	private Date update_time;
+	private Timestamp update_time;
 	private int created_id;
-	private Date created_time;
+	private Timestamp created_time;
 	public int getId() {
 		return id;
 	}
@@ -34,10 +35,10 @@ public class i_whitelist  extends Employee{
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Date getUpdate_time() {
+	public Timestamp getUpdate_time() {
 		return update_time;
 	}
-	public void setUpdate_time(Date update_time) {
+	public void setUpdate_time(Timestamp update_time) {
 		this.update_time = update_time;
 	}
 	public int getCreated_id() {
@@ -46,10 +47,10 @@ public class i_whitelist  extends Employee{
 	public void setCreated_id(int created_id) {
 		this.created_id = created_id;
 	}
-	public Date getCreated_time() {
+	public Timestamp getCreated_time() {
 		return created_time;
 	}
-	public void setCreated_time(Date created_time) {
+	public void setCreated_time(Timestamp created_time) {
 		this.created_time = created_time;
 	}
 

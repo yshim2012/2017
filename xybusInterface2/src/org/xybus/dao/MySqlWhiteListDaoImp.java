@@ -36,9 +36,9 @@ public class MySqlWhiteListDaoImp implements OperateDAO{
 				preparedStatement.setString(2, tem.getVersion()); 
 				preparedStatement.setString(3, tem.getCard_pin()); 
 				preparedStatement.setString(4, tem.getStatus());
-				preparedStatement.setDate(5, tem.getUpdate_time());
+				preparedStatement.setTimestamp(5, tem.getUpdate_time());
 				preparedStatement.setInt(6, tem.getCreated_id());
-				preparedStatement.setDate(7, tem.getCreated_time());
+				preparedStatement.setTimestamp(7, tem.getCreated_time());
 				preparedStatement.addBatch();
 			}
 			preparedStatement.executeBatch();
@@ -105,9 +105,8 @@ public class MySqlWhiteListDaoImp implements OperateDAO{
 	}
 
 	@Override
-	public void selectMAX() {
-		// TODO Auto-generated method stub
-		
+	public List selectMAX() { 
+		return null;	
 	}
 
 	@Override

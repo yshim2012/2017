@@ -23,7 +23,7 @@ public class SqlServerWhiteListDaoImp implements OperateDAO{
 	public long getSqlServerVersion() {
 		return SqlServerVersion;
 	}
-	public List<Employee> list= new ArrayList<Employee>();
+	
 
 	@Override
 	public void save(List<Employee> list) {
@@ -76,7 +76,8 @@ public class SqlServerWhiteListDaoImp implements OperateDAO{
 	}
 
 	@Override
-	public void selectMAX() {
+	public List selectMAX() {
+		List<Employee> list= new ArrayList<Employee>();
 		PreparedStatement  preparedStatement=null;
 		ResultSet resultSet =null;
 		ResultSet version=null; 
@@ -91,17 +92,16 @@ public class SqlServerWhiteListDaoImp implements OperateDAO{
 				employee.setVersion(resultSet.getString("Version"));
 				employee.setStatus(resultSet.getString("Status"));
 				employee.setCard_pin(resultSet.getString("card_pin"));
-				employee.setUpdate_time(resultSet.getDate("Update_time"));
-				employee.setCreated_time(resultSet.getDate("Created_time"));
+				employee.setUpdate_time(resultSet.getTimestamp("Update_time"));
+				employee.setCreated_time(resultSet.getTimestamp("Created_time"));
 				employee.setCreated_id(resultSet.getInt("Created_user"));
-		//		System.out.println(employee.getCard_pin()+employee.getId());
 				list.add(employee);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		 return list;
 	}
-
 	@Override
 	public void truncateTable() {
 	}
